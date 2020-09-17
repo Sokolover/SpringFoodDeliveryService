@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/registration" method="post">
+
+    <input class="input" name="username" type="text"
+           placeholder="5-30 characters">
+
+    <input class="input" name="password" type="password"
+           placeholder="Password input">
+
+    <input class="input" name="passwordConfirm" type="password"
+           placeholder="Password input">
+
+    <input class="input" name="email" type="text"
+           placeholder="ivan.inanov@gmail.com">
+
+    <input class="input" name="phoneNumber" type="text"
+           placeholder="+375291234567">
+
+    <input class="input" name="address" type="text"
+           placeholder="Address input">
+
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+    <input type="submit" value="register">
+</form>
+</body>
+</html>
