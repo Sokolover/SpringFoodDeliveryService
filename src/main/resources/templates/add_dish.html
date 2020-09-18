@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container createDishContainer">
+
+    <div th:text="${message}">
+
+    </div>
+
+    <form class="feedbackArea" action="/dish/add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <div>
+            <div class="control field">
+                <label class="label">
+                    <input class="input" name="name" type="text"
+                           placeholder="Name input">
+                </label>
+            </div>
+            <div class="control field">
+                <div class="label">
+                    <label class="label">
+                        <input class="input" name="cost"
+                               type="number"
+                               value="10"
+                               step=".01"
+                               min="0">
+                    </label>
+                </div>
+            </div>
+            <div class="control field">
+                <div class="label">
+                    <label class="label">
+                    <textarea class="textarea" name="description"
+                              placeholder="Description input" rows="10"></textarea>
+                    </label>
+                </div>
+            </div>
+            <div class="file field">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="pictureFile"/>
+                    <span class="file-cta">
+                            <span class="file-label">choose picture</span>
+                        </span>
+                </label>
+            </div>
+            <div class="select field">
+                <label class="label">
+<!--                 fixme не работает вариант:   th:field="*{category}"-->
+                    <select id="dishCategory" name="dishCategory">
+                        <option th:each="i : ${categories}" th:value="${i.name}"
+                                th:text="${i.name}"></option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="control field">
+            <input class="button is-light secondary marginTop" type="submit" value="create">
+        </div>
+    </form>
+</div>
+</body>
+</html>

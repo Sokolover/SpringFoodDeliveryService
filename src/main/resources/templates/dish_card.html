@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<div class="dishContainer">
+    <div class="cardContainer">
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img th:src="*{'data:image/jpg;base64,'+ dish.picture}" th:width="400" th:height="400"
+                         alt="no picture"/>
+                </figure>
+            </div>
+            <div class="card-content">
+                <p class="card-header-title">
+                    <span th:text="${dish.name}"></span>
+                </p>
+                <div class="box">
+                    <span th:text="${dish.description}"></span>
+                </div>
+                <div class="">
+                    <span th:text="${dish.cost}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

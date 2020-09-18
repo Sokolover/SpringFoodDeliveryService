@@ -39,16 +39,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerUser(User user) {
+    public void registerUser(User user) {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(UserRole.USER));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         walletDao.save(user.getWallet());
         userAddressDao.save(user.getUserAddress());
         userDao.save(user);
-
-        return true;
     }
 
     @Override

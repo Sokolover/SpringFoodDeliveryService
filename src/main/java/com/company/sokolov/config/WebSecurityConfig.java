@@ -29,16 +29,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/registration", "/home").permitAll()
+                .antMatchers("/", "/registration", "/home", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
+                .defaultSuccessUrl("/home", true)
                 .loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll();
     }
+
+//    @Override
+//    public void configure(WebSecurity web) {
+//        web
+//                .ignoring()
+//                .antMatchers("/resources/**");
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

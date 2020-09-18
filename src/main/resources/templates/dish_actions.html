@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<div sec:authorize="isAuthenticated()">
+    <form action="/dish/add_order_item" method="post">
+        <div class="betweenContainer alignItemsCenter">
+            <div class="dishAmount">
+                <label class="">
+                    dish amount
+                </label>
+                <div class="control field">
+                    <label class="label">
+                        <input class="input"
+                               name="orderDishAmount"
+                               value="1"
+                               type="number"
+                               step="1"
+                               min="1"
+                               max="10">
+                    </label>
+                </div>
+            </div>
+            <div class="control field">
+                <input class="button is-light secondary" type="submit" value="add dish">
+            </div>
+        </div>
+    </form>
+
+    <div class="betweenContainer">
+        <form action="/dish/write_feedback" method="post">
+            <div class="control is-centered alignItemsCenter">
+                <label class="label">
+                    <input class="button is-light is-small is-rounded" type="submit"
+                           value="write feedback">
+                </label>
+            </div>
+        </form>
+
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <form action="/dish/update" method="post">
+                <div class="control is-centered">
+                    <label class="label">
+                        <input class="button is-light is-small is-rounded" type="submit"
+                               value="update dish">
+                    </label>
+                </div>
+            </form>
+            <form action="/dish/delete" method="post">
+                <div class="control is-centered">
+                    <label class="label">
+                        <input class="button is-light is-small is-rounded" type="submit"
+                               value="delete dish">
+                    </label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</html>

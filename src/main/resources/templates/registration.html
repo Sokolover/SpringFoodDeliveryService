@@ -1,34 +1,65 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form action="/registration" method="post">
 
-    <input class="input" name="username" type="text"
-           placeholder="5-30 characters">
+<div class="loginContainer">
 
-    <input class="input" name="password" type="password"
-           placeholder="Password input">
+    <div th:insert="errors_message"></div>
 
-    <input class="input" name="passwordConfirm" type="password"
-           placeholder="Password input">
+    <h1 class="title is-1">
+        Registration
+    </h1>
 
-    <input class="input" name="email" type="text"
-           placeholder="ivan.inanov@gmail.com">
+    <form action="/registration" method="post">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        <div>
+            <div class="control field">
+                <label class="label">
+                    <input class="input" name="username" type="text"
+                           placeholder="5-30 characters">
+                </label>
+            </div>
+            <div class="control field">
+                <label class="label">
+                    <input class="input" name="password" type="password"
+                           placeholder="Password input">
+                </label>
+            </div>
+            <div class="control field">
+                <label class="label">
+                    <input class="input" name="passwordConfirm" type="password"
+                           placeholder="Password input">
+                </label>
+            </div>
+            <div class="control field">
+                <label class="label">
+                    <input class="input" name="email" type="text"
+                           placeholder="ivan.inanov@gmail.com">
+                </label>
+            </div>
+            <div class="control field">
+                <label class="label">
+                    <input class="input" name="phoneNumber" type="text"
+                           placeholder="+375291234567">
+                </label>
+            </div>
+            <div class="control field">
+                <label class="label">
+                    <input class="input" name="address" type="text"
+                           placeholder="Address input">
+                </label>
+            </div>
 
-    <input class="input" name="phoneNumber" type="text"
-           placeholder="+375291234567">
-
-    <input class="input" name="address" type="text"
-           placeholder="Address input">
-
-    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-
-    <input type="submit" value="register">
-</form>
+            <div class="control field marginTop">
+                <input class="button is-light secondary" type="submit" value="register">
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

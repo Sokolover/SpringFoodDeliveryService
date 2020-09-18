@@ -1,5 +1,7 @@
 package com.company.sokolov.entity.dish;
 
+import com.company.sokolov.entity.dish.category.DishCategory;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -13,7 +15,9 @@ public class Dish {
     private BigDecimal cost;
     private String description;
     private String picture;
-
+    @ManyToOne
+    @JoinColumn(name = "dish_category_id")
+    private DishCategory category;
 
     public Long getId() {
         return id;
@@ -53,5 +57,13 @@ public class Dish {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public DishCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(DishCategory category) {
+        this.category = category;
     }
 }

@@ -3,56 +3,59 @@ package com.company.sokolov.controller;
 import com.company.sokolov.entity.user.account.User;
 import com.company.sokolov.entity.user.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static com.company.sokolov.constants.CommonAppConstants.ERRORS_JSP_ATTRIBUTE;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static com.company.sokolov.constants.CommonAppConstants.*;
 import static java.util.Objects.nonNull;
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Controller
 public class RegistrationController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
     public String registration() {
-        return "registration";
+        return REGISTRATION_VIEW;
     }
 
     @PostMapping("/registration")
-    public String addUserAccount(@RequestParam String username,
-                                 @RequestParam String password,
-                                 @RequestParam String passwordConfirm,
-                                 @RequestParam String email,
-                                 @RequestParam String phoneNumber,
-                                 @RequestParam String address,
+    public String addUserAccount(@RequestParam String passwordConfirm,
+                                 User user,
                                  Model model) {
 
-        User userFromDatabase = userService.findByEmail(email);
+        User userFromDatabase = userService.findByEmail(user.getEmail());
+        List<String> errors = new ArrayList<>();
 
         if (nonNull(userFromDatabase)) {
-            model.addAttribute(ERRORS_JSP_ATTRIBUTE, "User already registered");
-            return "registration";
+            model.addAttribute(ERRORS_VIEW_ATTRIBUTE, Collections.singletonList("User already registered"));
+            return REGISTRATION_VIEW;
         }
 
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
-        user.setPassword(passwordEncoder.encode(password));
-        user.getUserAddress().setFullAddress(address);
+        if (isEmpty(passwordConfirm)) {
+            errors.add("Password confirmation cannot be empty");
+        }
 
-        System.out.println(passwordConfirm);
+        if (nonNull(user.getPassword()) && !user.getPassword().equals(passwordConfirm)) {
+            errors.add("Passwords are different!");
+        }
+
+        if (!errors.isEmpty()) {
+            model.addAttribute(ERRORS_VIEW_ATTRIBUTE, errors);
+            return REGISTRATION_VIEW;
+        }
 
         userService.registerUser(user);
 
-        return "redirect:/login";
+        return REDIRECT_LOGIN;
     }
 }
