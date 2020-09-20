@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container feedbackPageContainer">
+    <div class="feedbackContainer">
+        <form class="feedbackArea" action="/dish/update" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+            <input type="hidden" name="id" th:value="${dish.id}">
+            <div>
+                <div>
+                    <div class="control field">
+                        <label class="label">
+                            Dish name
+                            <input class="input" name="name" type="text"
+                                   th:placeholder="${dish.name}">
+                        </label>
+                    </div>
+                    <div class="control field">
+                        <div class="label">
+                            dish cost
+                            <input class="input" name="cost"
+                                   type="number"
+                                   th:value="${dish.cost}"
+                                   step=".01"
+                                   min="0">
+                        </div>
+                    </div>
+                    <div class="control field">
+                        <div class="label">
+                            dish description
+                            <textarea class="textarea" name="description"
+                                      th:placeholder="${dish.description}" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="file field">
+                        <label class="file-label">
+                            <input class="file-input" type="file"
+                                   name="pictureFile"/>
+                            <span class="file-cta">
+                                <span class="file-label">choose dish picture</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="select field">
+                        <label class="label">
+                            <select id="dishCategory" name="dishCategory">
+                                <option th:each="i : ${categories}" th:value="${i.name}"
+                                        th:text="${i.name}"></option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control field">
+                    <input class="button is-light secondary marginTop" type="submit" value="update">
+                </div>
+            </div>
+        </form>
+
+        <div th:insert="dish_card.html"></div>
+
+    </div>
+</div>
+</body>
+</html>

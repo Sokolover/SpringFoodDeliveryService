@@ -15,7 +15,6 @@ public final class CommonAppConstants {
     public static final String UPLOAD_DIRECTORY_PATH = "D:\\0_JAVA\\SpringProjects\\SimpleSecurity\\uploads";
 
 
-
     //    user@domain.com :       true
 //    user@domain.co.in :     true
 //    user1@domain.com :      true

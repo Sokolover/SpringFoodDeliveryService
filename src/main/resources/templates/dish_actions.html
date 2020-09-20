@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <div sec:authorize="isAuthenticated()">
     <form action="/dish/add_order_item" method="post">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
         <div class="betweenContainer alignItemsCenter">
             <div class="dishAmount">
                 <label class="">
@@ -29,6 +31,7 @@
 
     <div class="betweenContainer">
         <form action="/dish/write_feedback" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
             <div class="control is-centered alignItemsCenter">
                 <label class="label">
                     <input class="button is-light is-small is-rounded" type="submit"
@@ -38,7 +41,8 @@
         </form>
 
         <div sec:authorize="hasAuthority('ADMIN')">
-            <form action="/dish/update" method="post">
+            <form action="/dish/update" method="get">
+                <input type="hidden" th:name="dishId" th:value="${dish.id}">
                 <div class="control is-centered">
                     <label class="label">
                         <input class="button is-light is-small is-rounded" type="submit"
@@ -47,6 +51,8 @@
                 </div>
             </form>
             <form action="/dish/delete" method="post">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+                <input type="hidden" th:name="dishId" th:value="${dish.id}">
                 <div class="control is-centered">
                     <label class="label">
                         <input class="button is-light is-small is-rounded" type="submit"
