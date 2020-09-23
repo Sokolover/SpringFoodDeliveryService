@@ -1,5 +1,6 @@
 package com.company.sokolov.entity.user.account;
 
+import com.company.sokolov.entity.dish.feedback.DishFeedback;
 import com.company.sokolov.entity.user.address.UserAddress;
 import com.company.sokolov.entity.user.role.UserRole;
 import com.company.sokolov.entity.wallet.Wallet;
@@ -32,6 +33,8 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_address_id", referencedColumnName = "id")
     private UserAddress userAddress;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<DishFeedback> dishFeedbacks;
 
     public Long getId() {
         return id;
@@ -130,5 +133,13 @@ public class User implements UserDetails {
 
     public void setUserAddress(UserAddress userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public Set<DishFeedback> getDishFeedbacks() {
+        return dishFeedbacks;
+    }
+
+    public void setDishFeedbacks(Set<DishFeedback> dishFeedbacks) {
+        this.dishFeedbacks = dishFeedbacks;
     }
 }

@@ -7,6 +7,7 @@ public final class CommonAppConstants {
 
     public static final String REDIRECT_LOGIN = "redirect:/login";
     public static final String REDIRECT_HOME = "redirect:/home";
+    public static final String REDIRECT_WRITE_FEEDBACK = "redirect:/dish/write_feedback";
     public static final String ERRORS_VIEW_ATTRIBUTE = "errors";
     public static final String ERROR_VIEW_ATTRIBUTE = "error";
     public static final String MESSAGE_VIEW_ATTRIBUTE = "message";

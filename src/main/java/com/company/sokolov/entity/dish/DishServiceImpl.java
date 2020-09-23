@@ -32,6 +32,14 @@ public class DishServiceImpl implements DishService {
         return dishDao.findById(id).orElse(new Dish());
     }
 
+    /*
+    todo TIP
+     when you see javax.persistence.TransactionRequiredException: Executing an update/delete query
+     it means you need to write package @Transactional-annotation
+     from package org.springframework.transaction.annotation;
+     @
+     it often becomes when you call update() method from dao
+     */
     @Transactional
     @Override
     public void update(Dish dish) {

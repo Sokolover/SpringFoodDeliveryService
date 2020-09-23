@@ -1,9 +1,11 @@
 package com.company.sokolov.entity.dish;
 
 import com.company.sokolov.entity.dish.category.DishCategory;
+import com.company.sokolov.entity.dish.feedback.DishFeedback;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table(name = "dish")
@@ -18,6 +20,8 @@ public class Dish {
     @ManyToOne
     @JoinColumn(name = "dish_category_id")
     private DishCategory category;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
+    private Set<DishFeedback> dishFeedbacks;
 
     public Long getId() {
         return id;
@@ -65,5 +69,13 @@ public class Dish {
 
     public void setCategory(DishCategory category) {
         this.category = category;
+    }
+
+    public Set<DishFeedback> getDishFeedbacks() {
+        return dishFeedbacks;
+    }
+
+    public void setDishFeedbacks(Set<DishFeedback> dishFeedbacks) {
+        this.dishFeedbacks = dishFeedbacks;
     }
 }

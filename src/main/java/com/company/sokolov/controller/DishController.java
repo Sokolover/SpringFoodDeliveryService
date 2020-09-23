@@ -3,7 +3,12 @@ package com.company.sokolov.controller;
 import com.company.sokolov.entity.dish.Dish;
 import com.company.sokolov.entity.dish.DishService;
 import com.company.sokolov.entity.dish.category.DishCategoryService;
+import com.company.sokolov.entity.dish.feedback.DishFeedback;
+import com.company.sokolov.entity.dish.feedback.DishFeedbackService;
+import com.company.sokolov.entity.user.account.User;
+import com.company.sokolov.entity.user.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.annotation.MultipartConfig;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Optional;
 
 import static com.company.sokolov.constants.CommonAppConstants.*;
 import static java.util.Objects.isNull;
@@ -29,6 +35,10 @@ public class DishController {
     private DishService dishService;
     @Autowired
     private DishCategoryService dishCategoryService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private DishFeedbackService dishFeedbackService;
 
     @GetMapping
     public String showDishes() {
@@ -43,8 +53,40 @@ public class DishController {
         return HOME_VIEW;
     }
 
+    @PostMapping("/write_feedback")
+    public String writeFeedback(
+            @RequestParam Long dishId,
+            DishFeedback dishFeedback,
+            RedirectAttributes redirectAttributes
+    ) {
+
+        String currentPrincipalName = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByUsername(currentPrincipalName);
+
+        Optional<DishFeedback> optionalDishFeedbackFromDatabase = dishFeedbackService.findByDishIdAndUserAccountId(dishId, user.getId());
+        if (optionalDishFeedbackFromDatabase.isPresent()) {
+            DishFeedback dishFeedbackFromDatabase = optionalDishFeedbackFromDatabase.get();
+            dishFeedbackFromDatabase.setRating(dishFeedback.getRating());
+            dishFeedbackFromDatabase.setComment(dishFeedback.getComment());
+            dishFeedbackService.update(dishFeedback);
+        } else {
+            dishFeedback.setDish(dishService.findById(dishId));
+            dishFeedback.setUser(user);
+            dishFeedbackService.save(dishFeedback);
+        }
+
+        redirectAttributes.addFlashAttribute(MESSAGE_VIEW_ATTRIBUTE, "Feedback send");
+
+        return REDIRECT_HOME;
+    }
+
     @GetMapping("/write_feedback")
-    public String writeFeedback() {
+    public String writeFeedback(
+            @RequestParam Long dishId,
+            Model model
+    ) {
+
+        model.addAttribute("dish", dishService.findById(dishId));
 
         return "feedback_form";
     }

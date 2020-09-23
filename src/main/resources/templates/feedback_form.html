@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:text="${message}"></div>
+<div class="container feedbackPageContainer">
+    <div class="feedbackContainer">
+        <form class="feedbackArea" action="/dish/write_feedback" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+            <input type="hidden" name="dishId" th:value="${dish.id}">
+            <div class="field">
+                <th:block th:each="i: ${#numbers.sequence(1, 4)}">
+                    <input type="radio" name="rating" th:value="${i}">
+                    <span th:text="${i}"></span>
+                </th:block>
+                <input type="radio" name="rating" th:value="5">
+                <span th:text="5"></span>
+
+<!--                <c:set var="minRating" value="1"/>-->
+<!--                <c:set var="maxRating" value="5"/>-->
+<!--                <fmt:message key="feedback.rating"/>-->
+<!--                <div class="control field">-->
+<!--                    <c:forEach var="i" begin="${minRating}" end="${maxRating - 1}" step="1">-->
+<!--                        <label class="radio">-->
+<!--                            <input type="radio" name="${CommonAppConstants.FEEDBACK_RATING_JSP_PARAM}"-->
+<!--                                   value="${i}">-->
+<!--                            <c:out value="${i}"/>-->
+<!--                        </label>-->
+<!--                    </c:forEach>-->
+<!--                    <label class="radio">-->
+<!--                        <input type="radio" name="${CommonAppConstants.FEEDBACK_RATING_JSP_PARAM}"-->
+<!--                               value="${maxRating}" checked>-->
+<!--                        <c:out value="${maxRating}"/>-->
+<!--                    </label>-->
+<!--                </div>-->
+                <div class="control field">
+                    feedback text
+                    <textarea class="textarea" placeholder="write your comment"
+                              name="comment"
+                              rows="10"></textarea>
+                </div>
+            </div>
+            <div class="control field">
+                <input class="button is-light secondary marginTop is-right" type="submit" value="send feedback">
+            </div>
+        </form>
+
+        <div th:insert="dish_card.html"></div>
+
+    </div>
+</div>
+</body>
+</html>
