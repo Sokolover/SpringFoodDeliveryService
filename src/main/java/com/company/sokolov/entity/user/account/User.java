@@ -4,10 +4,12 @@ import com.company.sokolov.entity.dish.feedback.DishFeedback;
 import com.company.sokolov.entity.user.address.UserAddress;
 import com.company.sokolov.entity.user.role.UserRole;
 import com.company.sokolov.entity.wallet.Wallet;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -18,10 +20,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Username cannot be empty")
+    @Length(min = 5, message = "Username is too short")
+    @Length(max = 30, message = "Username is too long")
     private String username;
+    @NotBlank(message = "Password cannot be empty")
     private String password;
+    @NotBlank(message = "Email cannot be empty")
     private String email;
     private boolean isActive;
+    @NotBlank(message = "Phone number cannot be empty")
     private String phoneNumber;
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

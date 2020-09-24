@@ -20,6 +20,12 @@
         <div>
             <div class="control field">
                 <label class="label">
+                    <div class="message is-danger">
+                        <div th:if="${usernameError}">
+                            <div class="message-header" th:text="Error"></div>
+                            <div class="message-body" th:text="${usernameError}"></div>
+                        </div>
+                    </div>
                     <input class="input" name="username" type="text"
                            placeholder="5-30 characters">
                 </label>

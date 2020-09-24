@@ -8,6 +8,7 @@ import com.company.sokolov.entity.dish.feedback.DishFeedbackService;
 import com.company.sokolov.entity.user.account.User;
 import com.company.sokolov.entity.user.account.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,13 +56,24 @@ public class DishController {
 
     @PostMapping("/write_feedback")
     public String writeFeedback(
+            @AuthenticationPrincipal User user,
             @RequestParam Long dishId,
             DishFeedback dishFeedback,
             RedirectAttributes redirectAttributes
     ) {
 
-        String currentPrincipalName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findByUsername(currentPrincipalName);
+        /*
+        TODO try and test:
+                  НЕ   String currentPrincipalName = SecurityContextHolder.getContext().getAuthentication().getName();
+                        User user = userService.findByUsername(currentPrincipalName);
+                  А
+                         public String writeFeedback(
+                        @AuthenticationPrincipal User user,
+            https://urvanov.ru/2016/07/24/spring-mvc-%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B0%D0%B5%D0%BC-%D1%82%D0%B5%D0%BA%D1%83%D1%89%D0%B5%D0%B3%D0%BE-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-%D0%B2-%D0%BA/
+         */
+
+//        String currentPrincipalName = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userService.findByUsername(currentPrincipalName);
 
         Optional<DishFeedback> optionalDishFeedbackFromDatabase = dishFeedbackService.findByDishIdAndUserAccountId(dishId, user.getId());
         if (optionalDishFeedbackFromDatabase.isPresent()) {
